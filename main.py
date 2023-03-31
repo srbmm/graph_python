@@ -1,3 +1,6 @@
+from queue import PriorityQueue
+
+
 class Vertex:
     def __init__(self, value):
         self.value = value
@@ -58,6 +61,32 @@ class Graph:
                 temp[vertex.value][neighbor.value] = weight
         return temp
 
+    def ucs(self, start, goal):
+        visited = set()
+        queue = PriorityQueue()
+        if start not in self.vertexes.keys() and goal not in self.vertexes:
+            raise IndexError("Could not find start or goal.")
+        queue.put((0, start, [start]))
+        while not queue.empty():
+            cost, node, path = queue.get()
+            if node == goal:
+                return cost, path
+
+            if node not in visited:
+                visited.add(node)
+                for neighbor, weight in self.vertexes[node].neighbors.items():
+                    if neighbor.value not in visited:
+                        new_cost = cost + weight
+                        new_path = path + [neighbor.value]
+                        queue.put((new_cost, neighbor.value, new_path))
+                    elif neighbor == goal:
+                        if cost + weight < new_cost:
+                            new_cost = cost + weight
+                            new_path = path + [neighbor]
+                            queue.put((new_cost, neighbor.value, new_path))
+        return float('inf'), None
+
+
 
 if __name__ == '__main__':
     test = Graph()
@@ -74,3 +103,4 @@ if __name__ == '__main__':
     test.connect("C", "E", 4)
     test.connect("D", "F", 4)
     test.connect("E", "F", 1)
+    print(test.ucs("A", "F"))
