@@ -38,7 +38,15 @@ class Graph:
         if origin in self.vertexes.keys() and destination in self.vertexes.keys():
             self.vertexes[origin].add_neighbor(self.vertexes[destination], weight)
         else:
-            raise IndexError("Could not find the vertex origin or destination")
+            if origin not in self.vertexes.keys():
+                self.add_vertex(origin)
+            if destination not in self.vertexes.keys():
+                self.add_vertex(destination)
+            self.connect(origin, destination, weight)
+
+    def connect_to_getter(self, vertex1, vertex2, weight):
+        self.connect(vertex1, vertex2, weight)
+        self.connect(vertex2, vertex1, weight)
 
     def disconnect(self, origin, destination):
         if origin in self.vertexes.keys() and destination in self.vertexes.keys():
@@ -87,7 +95,6 @@ class Graph:
         return float('inf'), None
 
 
-
 if __name__ == '__main__':
     test = Graph()
     test.add_vertex("A")
@@ -104,3 +111,4 @@ if __name__ == '__main__':
     test.connect("D", "F", 4)
     test.connect("E", "F", 1)
     print(test.ucs("A", "F"))
+
