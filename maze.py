@@ -1,13 +1,31 @@
 from Graph import Graph
-MATRIX_NUMBER = 4
-inp = """0 0 1 1 0
-0 0 0 1 0
-0 1 0 0 0
-0 1 1 0 0
-1 0 1 1 0
-0 1 0 0 0
-0 0 0 1 1
-0 1 0 1 1"""
+
+#inp ex1
+# inp = """0 0 1 1 0
+# 0 0 0 1 0
+# 0 1 0 0 0
+# 0 1 1 0 0
+# 1 0 1 1 0
+# 0 1 0 0 0
+# 0 0 0 1 1
+# 0 1 0 1 1"""
+
+
+#inp ex2
+# inp = """0 1 0 0 0
+# 0 1 1 0 0
+# 0 0 0 1 0
+# 0 1 1 0 0
+# 0 0 0 0 0
+# 0 1 0 0 0
+# 1 0 1 1 0
+# 0 0 1 1 0"""
+
+inp = ""
+for i in range(8):
+    inp += input(f"line-{i + 1}:")
+    if i != 7:
+        inp += "\n"
 
 
 def str_to_row_and_col(inp):
@@ -18,21 +36,21 @@ def str_to_row_and_col(inp):
 my_graph = Graph()
 row, col = str_to_row_and_col(inp)
 
-for i in range(MATRIX_NUMBER):
-    for j in range(MATRIX_NUMBER):
+for i in range(4):
+    for j in range(5):
         temp_i = i + 1
         temp_j = j + 1
-        #
-        if row[i][j] != '1' and i+1 <= MATRIX_NUMBER:
-            my_graph.connect_to_getter(f"{sorted([temp_i,temp_j])}", f"{sorted([temp_i + 1,temp_j])}", 1)
-        if row[i][j] != '1' and j + 1 <= MATRIX_NUMBER:
-            my_graph.connect_to_getter(f"{sorted([temp_i,temp_j])}", f"{sorted([temp_i,temp_j + 1])}", 3)
+        if row[i][j] != '1' and i + 1 < 5:
+            my_graph.connect_to_getter(f"{temp_i}, {temp_j}", f"{temp_i + 1}, {temp_j}", 1)
+            print(temp_i, temp_j, "--->", temp_i+1, temp_j)
+        if row[i][j] != '1' and j + 1 < 5:
+            my_graph.connect_to_getter(f"{temp_i}, {temp_j}", f"{temp_i}, {temp_j + 1}", 3)
+            print(temp_i, temp_j, "--->", temp_i, temp_j+1)
+
 
 
 def my_ucs(graph, start, goal):
-    start.sort()
-    goal.sort()
     return graph.ucs(str(start), str(goal))
 
 
-print(my_ucs(my_graph, [1, 1], [4, 4]))
+print(my_ucs(my_graph, "1, 1", "5, 5"))

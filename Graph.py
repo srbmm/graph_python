@@ -87,10 +87,10 @@ class Graph:
                         new_cost = cost + weight
                         new_path = path + [neighbor.value]
                         queue.put((new_cost, neighbor.value, new_path))
-                    elif neighbor == goal:
+                    elif neighbor.value == goal:
                         if cost + weight < new_cost:
                             new_cost = cost + weight
-                            new_path = path + [neighbor]
+                            new_path = path + [neighbor.value]
                             queue.put((new_cost, neighbor.value, new_path))
         return float('inf'), None
 
