@@ -75,11 +75,11 @@ class Graph:
         if start not in self.vertexes.keys() and goal not in self.vertexes:
             raise IndexError("Could not find start or goal.")
         queue.put((0, start, [start]))
+
         while not queue.empty():
             cost, node, path = queue.get()
             if node == goal:
                 return cost, path
-
             if node not in visited:
                 visited.add(node)
                 for neighbor, weight in self.vertexes[node].neighbors.items():
